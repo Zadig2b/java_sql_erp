@@ -21,4 +21,9 @@ public class Customer {
     public String getLastName() { return lastName; }
     public String getCity() { return city; }
     public String getEmail() { return email; }
+    @Override
+public String toString() {
+    return firstName + " " + lastName + " (" + email + ")";
+}
+
 }

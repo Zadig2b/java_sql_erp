@@ -2,6 +2,7 @@ package com.erp.ui;
 
 import com.erp.dao.ProductDAO;
 import com.erp.model.Product;
+import com.erp.model.Category;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -9,7 +10,7 @@ import java.awt.*;
 import java.util.List;
 
 public class ProductPanel extends JFrame {
-    private JComboBox<String> categoryComboBox;
+    private JComboBox<Category> categoryComboBox;
     private JTable table;
     private DefaultTableModel model;
 
@@ -42,8 +43,8 @@ public class ProductPanel extends JFrame {
     }
 
     private void loadCategories() {
-        List<String> categories = ProductDAO.getCategories();
-        for (String c : categories) {
+        List<Category> categories = ProductDAO.getCategories();
+        for (Category c : categories) {
             categoryComboBox.addItem(c);
         }
         categoryComboBox.setSelectedIndex(0);
@@ -51,8 +52,9 @@ public class ProductPanel extends JFrame {
     }
 
     private void loadProducts() {
-        String selectedCategory = (String) categoryComboBox.getSelectedItem();
-        List<Product> products = ProductDAO.getProductsByCategory(selectedCategory);
+        Category selectedCategory = (Category) categoryComboBox.getSelectedItem();
+        List<Product> products = ProductDAO.getProductsByCategoryId(selectedCategory.getId());
+
         model.setRowCount(0);
         for (Product p : products) {
             model.addRow(new Object[]{p.getId(), p.getName(), p.getPrice(), p.getCategory()});
