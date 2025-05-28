@@ -69,8 +69,7 @@ public class OrderForm extends JFrame {
 
             // 1. Insertion dans orders
             PreparedStatement insertOrder = conn.prepareStatement(
-                "INSERT INTO orders (customerid, orderdate, netamount, tax, totalamount) VALUES (?, CURRENT_DATE, ?, ?, ?) RETURNING orderid"
-            );
+                    "INSERT INTO orders (customerid, orderdate, netamount, tax, totalamount) VALUES (?, CURRENT_DATE, ?, ?, ?) RETURNING orderid");
             insertOrder.setInt(1, customer.getId());
             insertOrder.setDouble(2, net);
             insertOrder.setDouble(3, tax);
@@ -86,8 +85,7 @@ public class OrderForm extends JFrame {
 
             // 2. Insertion dans orderlines
             PreparedStatement insertLine = conn.prepareStatement(
-                "INSERT INTO orderlines (orderid, prod_id, quantity, orderdate) VALUES (?, ?, ?, CURRENT_DATE)"
-            );
+                    "INSERT INTO orderlines (orderid, prod_id, quantity, orderdate) VALUES (?, ?, ?, CURRENT_DATE)");
 
             for (Product p : selectedProducts) {
                 insertLine.setInt(1, orderId);
@@ -97,6 +95,18 @@ public class OrderForm extends JFrame {
             }
 
             insertLine.executeBatch();
+
+            // 3. Mise à jour du stock
+            PreparedStatement updateStock = conn.prepareStatement(
+                    "UPDATE inventory SET quan_in_stock = quan_in_stock - ? WHERE prod_id = ?");
+
+            for (Product p : selectedProducts) {
+                updateStock.setInt(1, 1); // quantité commandée
+                updateStock.setInt(2, p.getId());
+                updateStock.addBatch();
+            }
+            updateStock.executeBatch();
+
             conn.commit();
 
             JOptionPane.showMessageDialog(this, "Commande créée avec succès (ID: " + orderId + ")");
@@ -104,7 +114,8 @@ public class OrderForm extends JFrame {
 
         } catch (Exception ex) {
             ex.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Erreur lors de la création de la commande.", "Erreur", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Erreur lors de la création de la commande.", "Erreur",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 
