@@ -10,16 +10,12 @@ import java.awt.*;
 import java.sql.*;
 import java.util.List;
 
-public class OrderHistoryPanel extends JFrame {
+public class OrderHistoryPanel extends JPanel {
     private JComboBox<Customer> customerComboBox;
     private JTable table;
     private DefaultTableModel model;
 
     public OrderHistoryPanel() {
-        setTitle("Historique des commandes");
-        setSize(800, 400);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
 
         // Combo clients
@@ -41,7 +37,6 @@ public class OrderHistoryPanel extends JFrame {
         table = new JTable(model);
         add(new JScrollPane(table), BorderLayout.CENTER);
 
-        setVisible(true);
         loadOrders(); // initial
     }
 
@@ -79,9 +74,5 @@ public class OrderHistoryPanel extends JFrame {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(OrderHistoryPanel::new);
     }
 }

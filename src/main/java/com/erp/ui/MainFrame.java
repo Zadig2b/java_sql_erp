@@ -1,7 +1,6 @@
 package com.erp.ui;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class MainFrame extends JFrame {
 
@@ -15,31 +14,22 @@ public class MainFrame extends JFrame {
         JTabbedPane tabs = new JTabbedPane();
 
         // Vue Clients
-        tabs.addTab("👥 Clients", createInternalFrame(new CustomerPanel()));
-        tabs.addTab("➕ Ajouter Client", createInternalFrame(new AddCustomerForm()));
+        tabs.addTab("👥 Clients", new CustomerPanel());
+        tabs.addTab("➕ Ajouter Client", new AddCustomerForm());
 
         // Vue Produits
-        tabs.addTab("📦 Produits", createInternalFrame(new ProductPanel()));
+        tabs.addTab("📦 Produits", new ProductPanel());
 
         // Commandes
-        tabs.addTab("🛒 Créer Commande", createInternalFrame(new OrderForm()));
-        tabs.addTab("📜 Historique", createInternalFrame(new OrderHistoryPanel()));
+        tabs.addTab("🛒 Créer Commande", new OrderForm());
+        tabs.addTab("📜 Historique", new OrderHistoryPanel());
 
         // Stock
-        tabs.addTab("⚠️ Stock Faible", createInternalFrame(new InventoryPanel()));
+        tabs.addTab("⚠️ Stock Faible", new InventoryPanel());
 
         add(tabs);
 
         setVisible(true);
-    }
-
-    // Permet d'intégrer n'importe quelle JFrame dans un onglet
-    private JPanel createInternalFrame(JFrame frame) {
-        JPanel panel = new JPanel(new BorderLayout());
-        for (Component c : frame.getContentPane().getComponents()) {
-            panel.add(c);
-        }
-        return panel;
     }
 
     public static void main(String[] args) {

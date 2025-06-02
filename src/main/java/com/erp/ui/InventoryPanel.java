@@ -8,15 +8,11 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.List;
 
-public class InventoryPanel extends JFrame {
+public class InventoryPanel extends JPanel {
     private JTable table;
     private DefaultTableModel model;
 
     public InventoryPanel() {
-        setTitle("Produits à reconstituer");
-        setSize(600, 400);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
 
         model = new DefaultTableModel();
@@ -25,8 +21,6 @@ public class InventoryPanel extends JFrame {
         add(new JScrollPane(table), BorderLayout.CENTER);
 
         loadLowStock(10); // seuil par défaut
-
-        setVisible(true);
     }
 
     private void loadLowStock(int seuil) {
@@ -35,9 +29,5 @@ public class InventoryPanel extends JFrame {
         for (Product p : produits) {
             model.addRow(new Object[]{p.getId(), p.getName(), p.getPrice(), p.getCategory()});
         }
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(InventoryPanel::new);
     }
 }

@@ -8,15 +8,12 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.List;
 
-public class CustomerPanel extends JFrame {
+public class CustomerPanel extends JPanel {
     private JTable table;
     private DefaultTableModel model;
 
     public CustomerPanel() {
-        setTitle("Liste des Clients");
-        setSize(800, 400);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
+        setLayout(new BorderLayout());
 
         model = new DefaultTableModel();
         model.setColumnIdentifiers(new String[] {"ID", "Prénom", "Nom", "Ville", "Email"});
@@ -26,8 +23,6 @@ public class CustomerPanel extends JFrame {
         JButton loadButton = new JButton("Charger les clients");
         loadButton.addActionListener(e -> loadCustomers());
         add(loadButton, BorderLayout.SOUTH);
-
-        setVisible(true);
     }
 
     private void loadCustomers() {
@@ -38,9 +33,5 @@ public class CustomerPanel extends JFrame {
                 c.getId(), c.getFirstName(), c.getLastName(), c.getCity(), c.getEmail()
             });
         }
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(CustomerPanel::new);
     }
 }

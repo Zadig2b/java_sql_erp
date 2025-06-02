@@ -9,17 +9,12 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.List;
 
-public class ProductPanel extends JFrame {
+public class ProductPanel extends JPanel {
     private JComboBox<Category> categoryComboBox;
     private JTable table;
     private DefaultTableModel model;
 
     public ProductPanel() {
-        setTitle("Liste des Produits");
-        setSize(800, 400);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
         setLayout(new BorderLayout());
 
         // --- TOP : combo catégories ---
@@ -38,8 +33,6 @@ public class ProductPanel extends JFrame {
 
         // --- Load initial ---
         loadCategories();
-
-        setVisible(true);
     }
 
     private void loadCategories() {
@@ -59,9 +52,5 @@ public class ProductPanel extends JFrame {
         for (Product p : products) {
             model.addRow(new Object[]{p.getId(), p.getName(), p.getPrice(), p.getCategory()});
         }
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(ProductPanel::new);
     }
 }
